@@ -53,37 +53,6 @@ public class UserListActivity extends AppCompatActivity
         dataBase = FirebaseDatabase.getInstance().getReference();
 
         InitUserLoading();
-//        LoadAll();
-    }
-
-    private void LoadAll()
-    {
-        UserListInfo[] users = GetUsers();
-        SetViewDataList(users);
-    }
-
-    private final String[] buttonCaptions = { "send", "wait", "go"};
-
-    private UserListInfo[] GetUsers() //TODO !!!
-    {
-        int count = 5;
-        UserListInfo[] res = new UserListInfo[count];
-        for (int i = 0; i < count; ++i)
-        {
-            UserListInfo info = new UserListInfo();
-            info.userId = "" + i;
-            info.userName = "name(" + i + ")";
-            info.status = buttonCaptions[i % 3]; //TODO : seam
-
-            res[i] = info;
-        }
-        return res;
-    }
-
-    private void SetViewDataList(UserListInfo[] users)
-    {
-        adapter = new UserListViewAdapter(this, new ArrayList<>(Arrays.asList(users)));
-        userListView.setAdapter(adapter);
     }
 
     public void OnListViewItemButtonClicked(int i, String userId, String status)
@@ -145,14 +114,14 @@ public class UserListActivity extends AppCompatActivity
         {
             dataBase
                     .child("users")
-                    .orderByChild("ID")
+                    .orderByChild("Id")
                     .equalTo(roles.get(i).userID)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapsot : dataSnapshot.getChildren())
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
                             {
-                                User user = snapsot.getValue(User.class);
+                                User user = snapshot.getValue(User.class);
                                 allUsers.add(user);
                                 ReloadView();
                             }
