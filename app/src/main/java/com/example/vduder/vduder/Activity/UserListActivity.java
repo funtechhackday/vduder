@@ -1,27 +1,22 @@
 package com.example.vduder.vduder.Activity;
 
-import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.vduder.vduder.Core.IdGenerator;
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
+import com.example.vduder.vduder.Model.Interview;
 import com.example.vduder.vduder.Model.Order;
 import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,10 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EventListener;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class UserListActivity extends AppCompatActivity
@@ -43,6 +34,8 @@ public class UserListActivity extends AppCompatActivity
     private ListView userListView;
     UserListViewAdapter adapter;
 
+    private String myId;
+
     private ArrayList<User> allUsers;
 
     @Override
@@ -50,6 +43,7 @@ public class UserListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
+        myId = GetMyId();
 
         userListView = (ListView) findViewById(R.id.userListView);
 
@@ -86,14 +80,23 @@ public class UserListActivity extends AppCompatActivity
 
                     if (order.status.equals(Order.WaitStatus))
                     {
-                        if (order.fromUserId.equals(GetMyId()))
+                        if (IsIAmAuthor(order)) //я - автор заявки
                         {
                             adapter.SetButtonAction(order.toUserId, "wait", false);
                         }
-                        else if (order.toUserId.equals(GetMyId()))
+                        else //я - цель заявки
                         {
                             adapter.SetButtonAction(order.fromUserId, "go", true);
                         }
+                    }
+                    else if (order.status.equals(Order.ConfirmedStatus))
+                    {
+                        String opponentId;
+                        if (IsIAmAuthor(order))
+                            opponentId = order.toUserId;
+                        else
+                            opponentId = order.fromUserId;
+                        adapter.SetButtonAction(opponentId, "go", true);
                     }
                 }
             }
@@ -105,11 +108,15 @@ public class UserListActivity extends AppCompatActivity
         };
     }
 
+    private Boolean IsIAmAuthor(Order order)
+    {
+        return order.fromUserId.equals(myId);
+    }
+
     private ValueEventListener orderListener;
 
     private Boolean IsOrderWithMe(Order order)
     {
-        String myId = GetMyId();
         return order.toUserId.equals(myId)
                 || order.fromUserId.equals(myId);
     }
@@ -127,10 +134,92 @@ public class UserListActivity extends AppCompatActivity
         }
     }
 
-    private void GoToInterview(String userId) {
+    private void GoToInterview(final String opponentId) {
+        String opponentField = myRole.equals(Role.VdudRole) ? "guestUserId" : "vdudUserId";
+        dataBase
+                .child("interview")
+                .orderByChild(opponentField)
+                .equalTo(opponentId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Interview interview = snapshot.getValue(Interview.class);
+                            GoToInterviewActivity(interview.id);
+                            return;
+                        }
+                        GoToNewInterview(opponentId);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ShowDataBaseError("error interview check");
+                    }
+                });
+    }
+
+    private void GoToNewInterview(String opponentId) {
+        Interview interview = CreateNewInterviewInBase(opponentId);
+        SetOrderToConfirmed(opponentId, myId);
+
+        GoToInterviewActivity(interview.id);
+    }
+
+    @NonNull
+    private Interview CreateNewInterviewInBase(String opponentId) {
+        String id = IdGenerator.GenerateId();
+        String vdudUserId;
+        String guestUserId;
+        if (Objects.equals(myRole, Role.VdudRole))
+        {
+            vdudUserId = myId;
+            guestUserId = opponentId;
+        }
+        else
+        {
+            vdudUserId = opponentId;
+            guestUserId = myId;
+        }
+
+        Interview interview = new Interview(id, vdudUserId, guestUserId);
+        dataBase.child("interview").child(interview.id).setValue(interview);
+        return interview;
+    }
+
+    private void SetOrderToConfirmed(final String fromId, final String toId) {
+        dataBase
+                .child("Orders")
+                .orderByChild("fromUserId")
+                .equalTo(fromId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Order order = snapshot.getValue(Order.class);
+                            Boolean isInterviewOrder = order.toUserId.equals(toId);
+                            if (isInterviewOrder)
+                            {
+                                order.status = Order.ConfirmedStatus;
+                                dataBase.child("Orders").child(order.Id).setValue(order);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ShowDataBaseError("error when set order to confirmed");
+                    }
+                });
+    }
+
+    private void GoToInterviewActivity(String interviewId)
+    {
         Intent intent = new Intent(this, InterviewActivity.class);
-        intent.putExtra(Role.RoleIntentKey, myRole);
-        startActivity(intent);
+        intent.putExtra("interviewId", interviewId);
+//        startActivity(intent); //TODO
+        Toast.makeText(this, "Go to interview with id " + interviewId, Toast.LENGTH_SHORT).show();
     }
 
     private void SendOrder(String userId)
@@ -139,7 +228,7 @@ public class UserListActivity extends AppCompatActivity
         Order order = new Order();
         order.Id = id;
         order.status = Order.WaitStatus;
-        order.fromUserId = GetMyId();
+        order.fromUserId = myId;
         order.toUserId = userId;
 
         dataBase.child("Orders").child(id).setValue(order);
@@ -185,7 +274,6 @@ public class UserListActivity extends AppCompatActivity
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String myId = GetMyId();
                         allUsers.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
