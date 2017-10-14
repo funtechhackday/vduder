@@ -1,14 +1,23 @@
 package com.example.vduder.vduder.Activity;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.example.vduder.vduder.Core.UserListInfo;
+import com.example.vduder.vduder.Core.UserListViewAdapter;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,69 +38,36 @@ public class UserListActivity extends AppCompatActivity {
 
         userListView = (ListView) findViewById(R.id.userListView);
 
-        Update();
+        LoadAll();
     }
 
-    private void Update()
+    private void LoadAll()
     {
-        User[] users = GetUsers();
-        String[] names = SelectNames(users);
-        String[] statuses = GetOrderStatuses(users);
-        SetViewDataList(names, statuses);
+        UserListInfo[] users = GetUsers();
+        SetViewDataList(users);
     }
 
-    private User[] GetUsers() //TODO !!!
+    private UserListInfo[] GetUsers() //TODO !!!
     {
         int count = 5;
-        User[] res = new User[count];
+        UserListInfo[] res = new UserListInfo[count];
         for (int i = 0; i < count; ++i)
         {
-            User user = new User();
-            user.ID = "" + i;
-            user.username = "name(" + i + ")";
+            UserListInfo info = new UserListInfo();
+            info.userId = "" + i;
+            info.userName = "name(" + i + ")";
+            info.status = "send";
 
-            res[i] = user;
+            res[i] = info;
         }
         return res;
     }
 
-    private String[] GetOrderStatuses(User[] users) //TODO !!!
+    private void SetViewDataList(UserListInfo[] users)
     {
-        return new String[] { "send", "send", "send", "send", "send" };
-    }
-
-    private static String[] SelectNames(User[] users)
-    {
-        String[] res = new String[users.length];
-        for (int i = 0; i < users.length; ++i)
-        {
-            res[i] = users[i].username;
-        }
-        return res;
-    }
-
-    private void SetViewDataList(String[] userNames, String[] buttonStatuses)
-    {
-        ArrayList<Map<String, Object>> data = CreateListViewAdapterData(userNames, buttonStatuses);
-        SimpleAdapter sAdapter = new SimpleAdapter(this, data, R.layout.user_list_item,
-                                        listViewFrom, listViewTo);
-        userListView.setAdapter(sAdapter);
-    }
-
-    private static ArrayList<Map<String, Object>> CreateListViewAdapterData(
-                                                            String[] userNames,
-                                                            String[] buttonStatuses)
-    {
-        ArrayList<Map<String, Object>> res = new ArrayList<>(userNames.length);
-
-        Map<String, Object> m;
-        for (int i = 0; i < userNames.length; ++i)
-        {
-            m = new HashMap<>();
-            m.put(ATTRIBUTE_USER_NAME, userNames[i]);
-            m.put(ATTRIBUTE_BUTTON_STATUS, buttonStatuses[i]);
-            res.add(m);
-        }
-        return res;
+        UserListViewAdapter adapter = new UserListViewAdapter(
+                                                this,
+                                                new ArrayList<>(Arrays.asList(users)));
+        userListView.setAdapter(adapter);
     }
 }
