@@ -35,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        loginFrag = new LoginFragment();
-//        fTrans = getSupportFragmentManager().beginTransaction();
-//        fTrans.add(R.id.frgmCont, loginFrag);
-//        fTrans.commit();
-        Intent intent = new Intent(this, UserListActivity.class);
-        startActivity(intent);
+        loginFrag = new LoginFragment();
+        fTrans = getSupportFragmentManager().beginTransaction();
+        fTrans.add(R.id.frgmCont, loginFrag);
+        fTrans.commit();
+//        Intent intent = new Intent(this, UserListActivity.class);
+//        startActivity(intent);
 //        mAuth = FirebaseAuth.getInstance();
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
 //        mAuth.signInWithEmailAndPassword("dima.yonkov@gmail.com", "11111111")

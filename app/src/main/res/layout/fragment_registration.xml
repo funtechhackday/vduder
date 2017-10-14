@@ -9,6 +9,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView android:id="@+id/name_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Введите Имя"
+            android:gravity="center"
+            android:textSize="16dip"/>
+        <EditText android:id="@+id/input_name_reg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="Name"/>
         <TextView android:id="@+id/email_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -31,7 +43,6 @@
         <EditText android:id="@+id/input_password_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:hint="Password"/>
         <TextView android:id="@+id/money_text"
             android:layout_width="301dp"
@@ -43,21 +54,20 @@
         <EditText android:id="@+id/input_money_reg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Password"/>
+            />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/btnCancel"
+                android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="@string/log_up">
+                android:text="Cancel">
             </Button>
             <Button
-                android:id="@+id/btnReg"
+                android:id="@+id/btn_reg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"

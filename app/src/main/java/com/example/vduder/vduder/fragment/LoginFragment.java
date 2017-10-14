@@ -42,7 +42,6 @@ public class LoginFragment extends Fragment {
 
 
         logUpTextView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
