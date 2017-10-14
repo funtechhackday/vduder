@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.vduder.vduder.R;
 import com.example.vduder.vduder.fragment.LoginFragment;
 import com.example.vduder.vduder.fragment.RegistrationFragment;
+import com.example.vduder.vduder.fragment.RoleFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
     private LoginFragment loginFrag;
+    private RoleFragment roleFrag;
     private FragmentTransaction fTrans;
 
 
@@ -35,40 +37,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginFrag = new LoginFragment();
-        fTrans = getSupportFragmentManager().beginTransaction();
-        fTrans.add(R.id.frgmCont, loginFrag);
-        fTrans.commit();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            loginFrag = new LoginFragment();
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.add(R.id.frgmCont, loginFrag);
+            fTrans.commit();
+        } else {
+            roleFrag = new RoleFragment();
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.add(R.id.frgmCont, roleFrag);
+            fTrans.commit();
+        }
+
 //        Intent intent = new Intent(this, UserListActivity.class);
 //        startActivity(intent);
-//        mAuth = FirebaseAuth.getInstance();
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mAuth.signInWithEmailAndPassword("dima.yonkov@gmail.com", "11111111")
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d("dd", "signInWithEmail:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-//                            Toast.makeText(MainActivity.this, "МЫ ЗАШЛИ СУКААА",
-//                                    Toast.LENGTH_SHORT).show();
-//                            writeNewUser("Dmitry", "dima.yonkov@gmail.com");
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w("dd", "signInWithEmail:failure", task.getException());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.",
-//                                    Toast.LENGTH_SHORT).show();
-//                        }
-//                        // ...
-//                    }
-//                });
         }
-//
-//    private void writeNewUser(String name, String email) {
-//        User user = new User(name, email);
-//
-//        mDatabase.child("users").child().setValue(user);
-//    }
 
 }
