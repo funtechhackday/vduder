@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +20,11 @@ import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,9 +33,13 @@ import java.util.Map;
 
 public class UserListActivity extends AppCompatActivity
 {
+    private DatabaseReference dataBase;
+
     private String myRole;
     private ListView userListView;
     UserListViewAdapter adapter;
+
+    private ArrayList<User> allUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +49,11 @@ public class UserListActivity extends AppCompatActivity
 
         userListView = (ListView) findViewById(R.id.userListView);
 
-        LoadAll();
+        allUsers = new ArrayList<>();
+        dataBase = FirebaseDatabase.getInstance().getReference();
+
+        InitUserLoading();
+//        LoadAll();
     }
 
     private void LoadAll()
@@ -101,4 +115,77 @@ public class UserListActivity extends AppCompatActivity
 	{
         Toast.makeText(this, IdGenerator.GenerateId(), Toast.LENGTH_SHORT).show();
     }
+
+    private void InitUserLoading()
+    {
+        dataBase
+                .child("role")
+                .child(myRole)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<Role> roles = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Role role = snapshot.getValue(Role.class);
+                            roles.add(role);
+                        }
+                        InitUsers(roles);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ShowDataBaseError("error role load");
+                    }
+                });
+    }
+
+    private void InitUsers(ArrayList<Role> roles)
+    {
+        for (int i = 0; i < roles.size(); ++i)
+        {
+            dataBase
+                    .child("users")
+                    .orderByChild("ID")
+                    .equalTo(roles.get(i).userID)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapsot : dataSnapshot.getChildren())
+                            {
+                                User user = snapsot.getValue(User.class);
+                                allUsers.add(user);
+                                ReloadView();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            ShowDataBaseError("error user load");
+                        }
+                    });
+        }
+    }
+
+    private void ReloadView()
+    {
+        ArrayList<UserListInfo> infos = new ArrayList<>(allUsers.size());
+        for (int i = 0; i < allUsers.size(); ++i)
+        {
+            UserListInfo info = new UserListInfo();
+            User user = allUsers.get(i);
+            info.userId = user.ID;
+            info.userName = user.username;
+            info.status = "send";
+            infos.add(info);
+        }
+        adapter = new UserListViewAdapter(this, infos);
+        userListView.setAdapter(adapter);
+    }
+
+    private static void ShowDataBaseError(String message)
+    {
+        Log.e("Error", message);
+    }
+
 }
