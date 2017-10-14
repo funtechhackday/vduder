@@ -54,15 +54,12 @@ public class LoginFragment extends Fragment {
         passEdit = (EditText) view.findViewById(R.id.input_password);
         logInBtn = (Button) view.findViewById(R.id.btn_logIn);
         regFrag = new RegistrationFragment();
-
         fragmentManager = getFragmentManager();
-
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 singIn();
             }
-
         });
 
         logUpTextView.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +77,6 @@ public class LoginFragment extends Fragment {
     void singIn() {
         email = emailEdit.getText().toString();
         pass = passEdit.getText().toString();
-
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -89,7 +85,7 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getActivity(), "МЫ ЗАШЛИ СУКААА",
+                            Toast.makeText(getActivity(), "Вы залогинились",
                                     Toast.LENGTH_SHORT).show();
                             fragmentRouting();
                         } else {
