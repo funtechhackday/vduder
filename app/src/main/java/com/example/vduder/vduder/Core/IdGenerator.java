@@ -12,7 +12,7 @@ public class IdGenerator {
     public static String GenerateId()
     {
         Date time = Calendar.getInstance().getTime();
-        return "" + time.toString();
+        return "" + time.getTime();
     }
 
 }
