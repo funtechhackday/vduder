@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vduder.vduder.Core.LogHelper;
 import com.example.vduder.vduder.Model.Message;
@@ -22,6 +25,7 @@ public class FullInterviewActivity extends AppCompatActivity {
 
     DatabaseReference database;
     LinearLayout linearLayout;
+    Button vkButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,22 @@ public class FullInterviewActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference();
 
         linearLayout = (LinearLayout) findViewById(R.id.fullInterviewLayout);
+        vkButton = (Button) findViewById(R.id.sendToVkButton);
+        vkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendSomethingToVk();
+            }
+        });
 
         Intent intent = getIntent();
         String interviewId = intent.getStringExtra("interviewId");
 
         LoadMessages(interviewId);
+    }
+
+    private void SendSomethingToVk() {
+        Toast.makeText(this, "Vk.....", Toast.LENGTH_SHORT).show();
     }
 
     private void LoadMessages(String interviewId) {
