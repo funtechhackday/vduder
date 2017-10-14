@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,10 +32,10 @@ public class UserListActivity extends AppCompatActivity
 {
     private DatabaseReference dataBase;
 
-    private String myRole;
     private ListView userListView;
     UserListViewAdapter adapter;
-
+    private Button showAllInterviewsButton;
+    private String myRole;
     private String myId;
 
     private ArrayList<User> allUsers;
@@ -46,6 +48,13 @@ public class UserListActivity extends AppCompatActivity
         myId = GetMyId();
 
         userListView = (ListView) findViewById(R.id.userListView);
+        showAllInterviewsButton = (Button) findViewById(R.id.showInterviewListButton);
+        showAllInterviewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GoToAllIterviewsActivity();
+            }
+        });
 
         allUsers = new ArrayList<>();
         dataBase = FirebaseDatabase.getInstance().getReference();
@@ -55,6 +64,11 @@ public class UserListActivity extends AppCompatActivity
         InitCurrentOrdersUpdate();
 
         Order.RemoveFromDataBase("1", "2");
+    }
+
+    private void GoToAllIterviewsActivity() {
+        Intent intent = new Intent(this, InterviewListActivity.class);
+        startActivity(intent);
     }
 
     private Boolean IsFirstTime = true;
