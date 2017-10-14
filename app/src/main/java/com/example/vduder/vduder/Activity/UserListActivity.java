@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
@@ -21,15 +22,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserListActivity extends AppCompatActivity {
-
-    private static final String ATTRIBUTE_USER_NAME = "userName";
-    private static final String ATTRIBUTE_BUTTON_STATUS = "statusText";
-
-    private static final String[] listViewFrom = { ATTRIBUTE_USER_NAME, ATTRIBUTE_BUTTON_STATUS };
-    private static final int[] listViewTo = { R.id.userNameTextView, R.id.userActionButton};
-
+public class UserListActivity extends AppCompatActivity
+{
     private ListView userListView;
+    UserListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +52,7 @@ public class UserListActivity extends AppCompatActivity {
             UserListInfo info = new UserListInfo();
             info.userId = "" + i;
             info.userName = "name(" + i + ")";
-            info.status = "send";
+            info.status = "send"; //TODO : seam
 
             res[i] = info;
         }
@@ -65,9 +61,25 @@ public class UserListActivity extends AppCompatActivity {
 
     private void SetViewDataList(UserListInfo[] users)
     {
-        UserListViewAdapter adapter = new UserListViewAdapter(
+        adapter = new UserListViewAdapter(
                                                 this,
                                                 new ArrayList<>(Arrays.asList(users)));
         userListView.setAdapter(adapter);
+    }
+
+    public void OnListViewItemButtonClicked(int i, String userId, String status)
+    {
+        switch (status)
+        {
+            case "send":
+                SendOrder(userId, status);
+                adapter.SetButtonAction(i, "wait");
+                break;
+        }
+    }
+
+    private void SendOrder(String userId, String status)
+    {
+        Toast.makeText(this, "send new order to " + userId, Toast.LENGTH_SHORT).show();
     }
 }

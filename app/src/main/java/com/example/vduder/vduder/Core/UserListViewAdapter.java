@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.vduder.vduder.Activity.UserListActivity;
 import com.example.vduder.vduder.R;
 
 import java.util.ArrayList;
@@ -17,15 +18,31 @@ import java.util.ArrayList;
  */
 public class UserListViewAdapter extends BaseAdapter
 {
-    private Context context;
+    private UserListActivity context;
     private LayoutInflater layoutInflater;
     private ArrayList<UserListInfo> objects;
+    private ArrayList<View> views;
 
-    public UserListViewAdapter(Context context, ArrayList<UserListInfo> userInfos)
+    private View.OnClickListener userButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Button button = (Button) view;
+            UserListInfo info = (UserListInfo) getItem(button.getId());
+
+            int buttonId = button.getId();
+            String userId = info.userId;
+            String action = button.getText().toString();
+            context.OnListViewItemButtonClicked(buttonId, userId, action);
+        }
+    };;
+
+    public UserListViewAdapter(UserListActivity parentActivity, ArrayList<UserListInfo> userInfos)
     {
-        this.context = context;
+        this.context = parentActivity;
         objects = userInfos;
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) parentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        views = new ArrayList<>(userInfos.size());
     }
 
     @Override
@@ -58,12 +75,25 @@ public class UserListViewAdapter extends BaseAdapter
         UserListInfo info = GetUserListInfo(i);
 
         ((TextView) resView.findViewById(R.id.userNameTextView)).setText(info.userName);
-        ((Button) resView.findViewById(R.id.userActionButton)).setText(info.status);
 
+        Button userButton = resView.findViewById(R.id.userActionButton);
+        userButton.setText(info.status);
+        userButton.setId(i);
+        userButton.setOnClickListener(userButtonClickListener);
+
+        views.add(i, resView);
         return resView;
     }
 
     private UserListInfo GetUserListInfo(int i) {
         return (UserListInfo) getItem(i);
+    }
+
+
+    public void SetButtonAction(int i, String newStatus)
+    {
+        View view = views.get(i);
+        Button button = (Button)view.findViewById(i);
+        button.setText(newStatus);
     }
 }
