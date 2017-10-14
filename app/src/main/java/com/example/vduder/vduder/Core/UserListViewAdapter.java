@@ -12,6 +12,7 @@ import com.example.vduder.vduder.Activity.UserListActivity;
 import com.example.vduder.vduder.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by torte on 14.10.2017.
@@ -90,10 +91,26 @@ public class UserListViewAdapter extends BaseAdapter
     }
 
 
-    public void SetButtonAction(int i, String newStatus)
+    public void SetButtonAction(int i, String newStatus, Boolean enable)
     {
         View view = views.get(i);
-        Button button = (Button)view.findViewById(i);
+        Button button = view.findViewById(i);
         button.setText(newStatus);
+        button.setEnabled(enable);
+    }
+
+    public void SetButtonAction(String userId, String newStatus, Boolean enable)
+    {
+        int i = FindIndex(userId);
+        SetButtonAction(i, newStatus, enable);
+    }
+
+    private int FindIndex(String searchedUserId) {
+        for (int i = 0; i < objects.size(); ++i)
+        {
+            if (Objects.equals(objects.get(i).userId, searchedUserId))
+                return i;
+        }
+        return -1;
     }
 }

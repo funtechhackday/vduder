@@ -1,6 +1,7 @@
 package com.example.vduder.vduder.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,8 @@ public class UserListActivity extends AppCompatActivity
         SetViewDataList(users);
     }
 
+    private final String[] buttonCaptions = { "send", "wait", "go"};
+
     private UserListInfo[] GetUsers() //TODO !!!
     {
         int count = 5;
@@ -52,7 +55,7 @@ public class UserListActivity extends AppCompatActivity
             UserListInfo info = new UserListInfo();
             info.userId = "" + i;
             info.userName = "name(" + i + ")";
-            info.status = "send"; //TODO : seam
+            info.status = buttonCaptions[i % 3]; //TODO : seam
 
             res[i] = info;
         }
@@ -73,9 +76,22 @@ public class UserListActivity extends AppCompatActivity
         {
             case "send":
                 SendOrder(userId, status);
-                adapter.SetButtonAction(i, "wait");
+                adapter.SetButtonAction(i, "wait", false);
+                break;
+            case "go":
+                GoToInterview(userId);
                 break;
         }
+    }
+
+    private void ActivateInterviewButton(String userId)
+    {
+        adapter.SetButtonAction(userId, "go", true);
+    }
+
+    private void GoToInterview(String userId) {
+        Intent intent = new Intent(this, InterviewActivity.class);
+        startActivity(intent);
     }
 
     private void SendOrder(String userId, String status)
