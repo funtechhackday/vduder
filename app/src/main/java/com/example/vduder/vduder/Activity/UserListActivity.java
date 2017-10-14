@@ -93,6 +93,7 @@ public class UserListActivity extends AppCompatActivity
 
     private void GoToInterview(String userId) {
         Intent intent = new Intent(this, InterviewActivity.class);
+        intent.putExtra(Role.RoleIntentKey, myRole);
         startActivity(intent);
     }
 

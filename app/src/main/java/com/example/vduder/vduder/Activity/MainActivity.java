@@ -25,9 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference mDatabase;
     private LoginFragment loginFrag;
     private RoleFragment roleFrag;
     private FragmentTransaction fTrans;
