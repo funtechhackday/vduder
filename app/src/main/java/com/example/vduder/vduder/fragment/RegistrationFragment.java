@@ -1,18 +1,16 @@
-package com.example.vduder.vduder.Activity;
+package com.example.vduder.vduder.fragment;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleableRes;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
-import com.example.vduder.vduder.fragment.LoginFragment;
-import com.example.vduder.vduder.fragment.RegistrationFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,26 +19,23 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by dmitry on 14.10.17.
+ */
+
+public class RegistrationFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabase;
-    private LoginFragment loginFrag;
-    private FragmentTransaction fTrans;
-
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_registration, null);
+    }
 
-//        loginFrag = new LoginFragment();
-//        fTrans = getSupportFragmentManager().beginTransaction();
-//        fTrans.add(R.id.frgmCont, loginFrag);
-//        fTrans.commit();
-        Intent intent = new Intent(this, UserListActivity.class);
-        startActivity(intent);
+//    void createUser() {
 //        mAuth = FirebaseAuth.getInstance();
 //        mDatabase = FirebaseDatabase.getInstance().getReference();
 //        mAuth.signInWithEmailAndPassword("dima.yonkov@gmail.com", "11111111")
@@ -51,24 +46,22 @@ public class MainActivity extends AppCompatActivity {
 //                            // Sign in success, update UI with the signed-in user's information
 //                            Log.d("dd", "signInWithEmail:success");
 //                            FirebaseUser user = mAuth.getCurrentUser();
-//                            Toast.makeText(MainActivity.this, "МЫ ЗАШЛИ СУКААА",
+//                            Toast.makeText(getActivity(), "МЫ ЗАШЛИ СУКААА",
 //                                    Toast.LENGTH_SHORT).show();
 //                            writeNewUser("Dmitry", "dima.yonkov@gmail.com");
 //                        } else {
 //                            // If sign in fails, display a message to the user.
 //                            Log.w("dd", "signInWithEmail:failure", task.getException());
-//                            Toast.makeText(MainActivity.this, "Authentication failed.",
+//                            Toast.makeText(getActivity(), "Authentication failed.",
 //                                    Toast.LENGTH_SHORT).show();
 //                        }
 //                        // ...
 //                    }
 //                });
-        }
-//
-//    private void writeNewUser(String name, String email) {
-//        User user = new User(name, email);
-//
-//        mDatabase.child("users").child().setValue(user);
-//    }
+ //   }
+        private void writeNewUser(String name, String email) {
+        User user = new User(name, email);
+      //  mDatabase.child("users").child(1).setValue(user);
+    }
 
 }
