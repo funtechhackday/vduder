@@ -115,7 +115,7 @@ public class UserListActivity extends AppCompatActivity
         {
             dataBase
                     .child("users")
-                    .orderByChild("Id")
+                    .orderByChild("ID")
                     .equalTo(roles.get(i).userID)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
