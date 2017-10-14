@@ -38,22 +38,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user == null) {
-//            loginFrag = new LoginFragment();
-//            fTrans = getSupportFragmentManager().beginTransaction();
-//            fTrans.add(R.id.frgmCont, loginFrag);
-//            fTrans.commit();
-//        } else {
-//            roleFrag = new RoleFragment();
-//            fTrans = getSupportFragmentManager().beginTransaction();
-//            fTrans.add(R.id.frgmCont, roleFrag);
-//            fTrans.commit();
-//        }
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            loginFrag = new LoginFragment();
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.add(R.id.frgmCont, loginFrag);
+            fTrans.commit();
+        } else {
+            roleFrag = new RoleFragment();
+            fTrans = getSupportFragmentManager().beginTransaction();
+            fTrans.add(R.id.frgmCont, roleFrag);
+            fTrans.commit();
+        }
 
-        Intent intent = new Intent(this, UserListActivity.class);
-        intent.putExtra(Role.RoleIntentKey, "dud");
-        startActivity(intent);
+//        Intent intent = new Intent(this, UserListActivity.class);
+//        intent.putExtra(Role.RoleIntentKey, "dud");
+//        startActivity(intent);
         }
 
 }

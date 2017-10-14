@@ -35,7 +35,6 @@ public class UserListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
 
         userListView = (ListView) findViewById(R.id.userListView);
@@ -100,7 +99,7 @@ public class UserListActivity extends AppCompatActivity
     }
 
     private void SendOrder(String userId, String status)
-    {
+	{
         Toast.makeText(this, IdGenerator.GenerateId(), Toast.LENGTH_SHORT).show();
     }
 }
