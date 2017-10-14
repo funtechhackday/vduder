@@ -89,16 +89,16 @@ public class RoleFragment extends Fragment {
     private void writeRoleDude(String id) {
         Role role = new Role(Role.VdudRole ,id);
         mDatabase.child("role").child("dude").child(id).setValue(role);
-        routingActivity();
+        routingActivity(Role.VdudRole);
     }
     private void writeRoleNoDude(String id) {
         Role role = new Role(Role.GuestRole ,id);
         mDatabase.child("role").child("noDude").child(id).setValue(role);
-        routingActivity();
+        routingActivity(Role.GuestRole);
     }
-    private void routingActivity() {
+    private void routingActivity(String role) {
         Intent myIntent = new Intent(getActivity(), UserListActivity.class);
-        myIntent.putExtra(Role.RoleIntentKey, "dud");
+        myIntent.putExtra(Role.RoleIntentKey, role);
         getActivity().startActivity(myIntent);
     }
 }
