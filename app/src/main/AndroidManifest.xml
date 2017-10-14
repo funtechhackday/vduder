@@ -19,7 +19,8 @@
         <activity android:name=".Activity.UserListActivity" />
         <activity android:name=".Activity.InterviewActivity" />
         <activity android:name=".Activity.InterviewListActivity" />
-        <activity android:name=".Activity.FullInterviewActivity"></activity>
+        <activity android:name=".Activity.FullInterviewActivity" />
+        <activity android:name=".Activity.TestActivity"></activity>
     </application>
 
 </manifest>
