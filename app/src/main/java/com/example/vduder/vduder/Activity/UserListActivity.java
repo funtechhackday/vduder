@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.example.vduder.vduder.Core.IdGenerator;
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
+import com.example.vduder.vduder.Model.Order;
 import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,8 +30,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserListActivity extends AppCompatActivity
 {
@@ -51,8 +55,63 @@ public class UserListActivity extends AppCompatActivity
 
         allUsers = new ArrayList<>();
         dataBase = FirebaseDatabase.getInstance().getReference();
+        ReloadView();
 
         InitUserLoading();
+        InitCurrentOrdersUpdate();
+    }
+
+    private Boolean IsFirstTime = true;
+
+    private void InitCurrentOrdersUpdate() {
+        if (!IsFirstTime)
+        {
+            dataBase.child("Orders").removeEventListener(orderListener);
+        }
+        ReloadListener();
+        dataBase
+                .child("Orders")
+                .addValueEventListener(orderListener);
+        IsFirstTime = false;
+    }
+
+    private void ReloadListener() {
+        orderListener  = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Order order = snapshot.getValue(Order.class);
+                    if (!(IsOrderWithMe(order))) continue;
+
+                    if (order.status.equals(Order.WaitStatus))
+                    {
+                        if (order.fromUserId.equals(GetMyId()))
+                        {
+                            adapter.SetButtonAction(order.toUserId, "wait", false);
+                        }
+                        else if (order.toUserId.equals(GetMyId()))
+                        {
+                            adapter.SetButtonAction(order.fromUserId, "go", true);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                ShowDataBaseError("error order load");
+            }
+        };
+    }
+
+    private ValueEventListener orderListener;
+
+    private Boolean IsOrderWithMe(Order order)
+    {
+        String myId = GetMyId();
+        return order.toUserId.equals(myId)
+                || order.fromUserId.equals(myId);
     }
 
     public void OnListViewItemButtonClicked(int i, String userId, String status)
@@ -60,18 +119,12 @@ public class UserListActivity extends AppCompatActivity
         switch (status)
         {
             case "send":
-                SendOrder(userId, status);
-                adapter.SetButtonAction(i, "wait", false);
+                SendOrder(userId);
                 break;
             case "go":
                 GoToInterview(userId);
                 break;
         }
-    }
-
-    private void ActivateInterviewButton(String userId)
-    {
-        adapter.SetButtonAction(userId, "go", true);
     }
 
     private void GoToInterview(String userId) {
@@ -80,16 +133,29 @@ public class UserListActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void SendOrder(String userId, String status)
+    private void SendOrder(String userId)
 	{
-        Toast.makeText(this, IdGenerator.GenerateId(), Toast.LENGTH_SHORT).show();
+        String id = IdGenerator.GenerateId();
+        Order order = new Order();
+        order.Id = id;
+        order.status = Order.WaitStatus;
+        order.fromUserId = GetMyId();
+        order.toUserId = userId;
+
+        dataBase.child("Orders").child(id).setValue(order);
     }
+
+    private static String GetMyId()
+    {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
 
     private void InitUserLoading()
     {
         dataBase
                 .child("role")
-                .child(myRole)
+                .child(Role.GetOpponentRole(myRole))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -119,10 +185,13 @@ public class UserListActivity extends AppCompatActivity
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        String myId = GetMyId();
+                        allUsers.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             User user = snapshot.getValue(User.class);
-                            if (user.ID == null) break;
+                            if (user.ID == null) continue;
+                            if (Objects.equals(user.ID, myId)) continue;
                             for (Role role : dbRoles)
                             {
                                 if (user.ID.equals(role.userID))
@@ -152,11 +221,13 @@ public class UserListActivity extends AppCompatActivity
             User user = allUsers.get(i);
             info.userId = user.ID;
             info.userName = user.username;
-            info.status = "go";
+            info.status = "send";
             infos.add(info);
         }
         adapter = new UserListViewAdapter(this, infos);
         userListView.setAdapter(adapter);
+
+        InitCurrentOrdersUpdate();
     }
 
     private static void ShowDataBaseError(String message)

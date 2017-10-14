@@ -102,6 +102,7 @@ public class UserListViewAdapter extends BaseAdapter
     public void SetButtonAction(String userId, String newStatus, Boolean enable)
     {
         int i = FindIndex(userId);
+        if (i == -1) return;
         SetButtonAction(i, newStatus, enable);
     }
 

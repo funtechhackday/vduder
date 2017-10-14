@@ -5,9 +5,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
 //Заявка на интервью
 @IgnoreExtraProperties
 public class Order {
-    public final String WaitStatus = "WaitConfirmation";
-    public final String ConfirmedStatus = "Confirmed";
-    public final String CompleteStatus = "Completed";
+    public static final String WaitStatus = "Wait";
+    public static final String ConfirmedStatus = "Confirmed";
+    public static final String CompleteStatus = "Completed";
 
     public String Id;
     public String fromUserId;
