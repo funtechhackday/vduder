@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "868793354655",
+    "firebase_url": "https://vduder-bb0ee.firebaseio.com",
+    "project_id": "vduder-bb0ee",
+    "storage_bucket": "vduder-bb0ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868793354655:android:3ac94c4f115f020c",
+        "android_client_info": {
+          "package_name": "com.example.vduder.vduder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "868793354655-n35g6c76f3epchpsarsdou16igq9h4mk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vduder.vduder",
+            "certificate_hash": "deceda6a0a704a795ad3e3d0645e38807a991999"
+          }
+        },
+        {
+          "client_id": "868793354655-e356kht232noabk3jcp5qjbep51k2bor.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8xDdwCnW6tixHdcYIvS72QsgAsS6sSUs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "868793354655-e356kht232noabk3jcp5qjbep51k2bor.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
