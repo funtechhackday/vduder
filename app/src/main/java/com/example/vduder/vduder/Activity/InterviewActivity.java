@@ -27,7 +27,7 @@ import java.util.List;
 
 public class InterviewActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference dataBase;
     private EditText answerEdit;
     private Button btnSend;
     private String myRole;
@@ -44,33 +44,15 @@ public class InterviewActivity extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btn_send);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("interview")
-                .orderByChild("id")
-                .equalTo("1")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        List<Interview> mShops = new ArrayList<>();
-                        for (DataSnapshot noteSnapshot: snapshot.getChildren()){
-                            Interview interview = noteSnapshot.getValue(Interview.class);
-                            Log.e("log", interview.vdudUserId);
-                            mShops.add(interview);
-                        }
-                        for (Interview inter : mShops) {
-                            Log.e("mShops", inter.guestUserId);
-                           id = inter.id;
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+        dataBase = FirebaseDatabase.getInstance().getReference();
+        InitUserLoading();
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 text = answerEdit.getText().toString();
                 writeMessage(user.getUid(), id, myRole, text);
+                answerEdit.setText("");
             }
         });
     }
@@ -79,12 +61,29 @@ public class InterviewActivity extends AppCompatActivity {
         String id = IdGenerator.GenerateId();
         Message mes = new Message(id,  authorId,  interviewId,  myRole,  text);
 
-        mDatabase.child("message").child(id).setValue(mes);
+        dataBase.child("message").child(id).setValue(mes);
     }
 
-    private void sendMessage() {
-        Log.e("log", "ddd");
+    private void InitUserLoading()
+    {
+        dataBase
+                .child("interview")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<Role> roles = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Role role = snapshot.getValue(Role.class);
+                            roles.add(role);
+                        }
+                       System.out.println(roles);
+                    }
 
-
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("error role load");
+                    }
+                });
     }
 }

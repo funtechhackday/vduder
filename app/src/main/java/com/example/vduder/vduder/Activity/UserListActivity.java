@@ -145,7 +145,7 @@ public class UserListActivity extends AppCompatActivity
             User user = allUsers.get(i);
             info.userId = user.ID;
             info.userName = user.username;
-            info.status = "send";
+            info.status = "go";
             infos.add(info);
         }
         adapter = new UserListViewAdapter(this, infos);
