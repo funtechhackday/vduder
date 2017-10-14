@@ -109,31 +109,38 @@ public class UserListActivity extends AppCompatActivity
                 });
     }
 
+    private ArrayList<Role> dbRoles;
+
     private void InitUsers(ArrayList<Role> roles)
     {
-        for (int i = 0; i < roles.size(); ++i)
-        {
-            dataBase
-                    .child("users")
-                    .orderByChild("ID")
-                    .equalTo(roles.get(i).userID)
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren())
+        dbRoles = roles;
+        dataBase
+                .child("users")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            User user = snapshot.getValue(User.class);
+                            if (user.ID == null) break;
+                            for (Role role : dbRoles)
                             {
-                                User user = snapshot.getValue(User.class);
-                                allUsers.add(user);
-                                ReloadView();
+                                if (user.ID.equals(role.userID))
+                                {
+                                    allUsers.add(user);
+                                    break;
+                                }
                             }
                         }
+                        ReloadView();
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            ShowDataBaseError("error user load");
-                        }
-                    });
-        }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        ShowDataBaseError("error user load");
+                    }
+                });
+
     }
 
     private void ReloadView()
