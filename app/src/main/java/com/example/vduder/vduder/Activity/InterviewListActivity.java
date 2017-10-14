@@ -1,5 +1,6 @@
 package com.example.vduder.vduder.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -53,7 +54,7 @@ public class InterviewListActivity extends AppCompatActivity {
                 });
     }
 
-    private void AddInterviewToLayout(Interview interview) {
+    private void AddInterviewToLayout(final Interview interview) {
         ImageButton view = new ImageButton(this);
         view.setImageResource(R.drawable.test_ava);
         view.setTag(interview.id);
@@ -62,10 +63,15 @@ public class InterviewListActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO
-                Toast.makeText(InterviewListActivity.this, (String)view.getTag(), Toast.LENGTH_SHORT).show();
+                GoToFullInterviewView(interview);
             }
         });
         gridLayout.addView(view);
+    }
+
+    private void GoToFullInterviewView(Interview interviewId)
+    {
+        Intent intent = new Intent(this, FullInterviewActivity.class);
+        startActivity(intent);
     }
 }
