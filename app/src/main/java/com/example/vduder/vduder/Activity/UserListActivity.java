@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
 
 import java.util.ArrayList;
@@ -28,8 +29,45 @@ public class UserListActivity extends AppCompatActivity {
 
         userListView = (ListView) findViewById(R.id.userListView);
 
-        SetViewDataList(new String[]{ "user1", "user2"},
-                        new String[]{ "aga",    "nu"});
+        Update();
+    }
+
+    private void Update()
+    {
+        User[] users = GetUsers();
+        String[] names = SelectNames(users);
+        String[] statuses = GetOrderStatuses(users);
+        SetViewDataList(names, statuses);
+    }
+
+    private User[] GetUsers() //TODO !!!
+    {
+        int count = 5;
+        User[] res = new User[count];
+        for (int i = 0; i < count; ++i)
+        {
+            User user = new User();
+            user.ID = "" + i;
+            user.username = "name(" + i + ")";
+
+            res[i] = user;
+        }
+        return res;
+    }
+
+    private String[] GetOrderStatuses(User[] users) //TODO !!!
+    {
+        return new String[] { "send", "send", "send", "send", "send" };
+    }
+
+    private static String[] SelectNames(User[] users)
+    {
+        String[] res = new String[users.length];
+        for (int i = 0; i < users.length; ++i)
+        {
+            res[i] = users[i].username;
+        }
+        return res;
     }
 
     private void SetViewDataList(String[] userNames, String[] buttonStatuses)
