@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/test_ava"/>
+
     <TextView
         android:id="@+id/userNameTextView"
         android:layout_width="wrap_content"

@@ -68,9 +68,7 @@ public class UserListActivity extends AppCompatActivity
 
     private void SetViewDataList(UserListInfo[] users)
     {
-        adapter = new UserListViewAdapter(
-                                                this,
-                                                new ArrayList<>(Arrays.asList(users)));
+        adapter = new UserListViewAdapter(this, new ArrayList<>(Arrays.asList(users)));
         userListView.setAdapter(adapter);
     }
 
