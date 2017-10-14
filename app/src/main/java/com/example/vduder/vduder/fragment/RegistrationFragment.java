@@ -60,7 +60,7 @@ public class RegistrationFragment extends Fragment {
 //                });
  //   }
         private void writeNewUser(String name, String email) {
-        User user = new User(name, email);
+       // User user = new User(name, email);
       //  mDatabase.child("users").child(1).setValue(user);
     }
 
