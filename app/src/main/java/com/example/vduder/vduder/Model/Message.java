@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Message {
     public String ID;
+    public int number;
     public String authorId;
     public String interviewId;
     public String typeMessage;
@@ -13,9 +14,10 @@ public class Message {
 
     public Message() {}
 
-    public Message(String id, String authorId, String interviewId, String typeMessage, String text)
+    public Message(String id, int number,String authorId, String interviewId, String typeMessage, String text)
     {
         this.ID = id;
+        this.number = number;
         this.authorId = authorId;
         this.interviewId = interviewId;
         this.typeMessage = typeMessage;

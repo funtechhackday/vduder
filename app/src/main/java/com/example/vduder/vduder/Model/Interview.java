@@ -10,7 +10,7 @@ public class Interview {
     public String id;
     public String vdudUserId;
     public String guestUserId;
-    public Image image;
+    //public Image image;
 
     public Interview() {}
 
@@ -19,7 +19,7 @@ public class Interview {
         this.id = id;
         this.vdudUserId = vdudUserId;
         this.guestUserId = guestUserId;
-        this.image = null; //TODO !
+       // this.image = null; //TODO !
     }
 }
 

@@ -6,8 +6,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Role {
     public static final String RoleIntentKey = "role";
-    public static final String VdudRole = "vDud";
-    public static final String GuestRole = "Guest";
+    public static final String VdudRole = "dude";
+    public static final String GuestRole = "noDude";
 
     public String ID;
     public String roleType;
