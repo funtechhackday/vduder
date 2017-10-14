@@ -58,6 +58,14 @@ public class RoleFragment extends Fragment {
             }
         });
 
+        noDudeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Вы НЕ ДУДЬ",
+                        Toast.LENGTH_SHORT).show();
+                writeRoleNoDude(user.getUid());
+            }
+        });
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,5 +86,9 @@ public class RoleFragment extends Fragment {
     private void writeRoleDude(String id) {
         Role role = new Role(Role.VdudRole ,id);
         mDatabase.child("role").child("dude").child(id).setValue(role);
+    }
+    private void writeRoleNoDude(String id) {
+        Role role = new Role(Role.GuestRole ,id);
+        mDatabase.child("role").child("noDude").child(id).setValue(role);
     }
 }
