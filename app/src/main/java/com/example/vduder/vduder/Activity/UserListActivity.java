@@ -53,6 +53,8 @@ public class UserListActivity extends AppCompatActivity
 
         InitUserLoading();
         InitCurrentOrdersUpdate();
+
+        Order.RemoveFromDataBase("1", "2");
     }
 
     private Boolean IsFirstTime = true;
