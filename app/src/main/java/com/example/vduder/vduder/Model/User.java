@@ -1,4 +1,4 @@
-package com.example.vduder.vduder;
+package com.example.vduder.vduder.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

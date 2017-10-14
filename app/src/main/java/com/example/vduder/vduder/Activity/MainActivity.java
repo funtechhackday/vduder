@@ -1,4 +1,4 @@
-package com.example.vduder.vduder;
+package com.example.vduder.vduder.Activity;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleableRes;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
