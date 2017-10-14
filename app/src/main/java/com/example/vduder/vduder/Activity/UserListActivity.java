@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.Core.IdGenerator;
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
 import com.example.vduder.vduder.Model.Role;
@@ -35,7 +36,7 @@ public class UserListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
-        myRole = (String)savedInstanceState.get(Role.RoleIntentKey);
+        myRole = getIntent().getStringExtra(Role.RoleIntentKey);
 
         userListView = (ListView) findViewById(R.id.userListView);
 
@@ -100,6 +101,6 @@ public class UserListActivity extends AppCompatActivity
 
     private void SendOrder(String userId, String status)
     {
-        Toast.makeText(this, "send new order to " + userId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, IdGenerator.GenerateId(), Toast.LENGTH_SHORT).show();
     }
 }
