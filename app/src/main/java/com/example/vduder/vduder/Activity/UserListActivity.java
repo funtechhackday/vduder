@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -54,13 +55,63 @@ public class UserListActivity extends AppCompatActivity
 
         allUsers = new ArrayList<>();
         dataBase = FirebaseDatabase.getInstance().getReference();
+        ReloadView();
 
         InitUserLoading();
         InitCurrentOrdersUpdate();
     }
 
-    private void InitCurrentOrdersUpdate() {
+    private Boolean IsFirstTime = true;
 
+    private void InitCurrentOrdersUpdate() {
+        if (!IsFirstTime)
+        {
+            dataBase.child("Orders").removeEventListener(orderListener);
+        }
+        ReloadListener();
+        dataBase
+                .child("Orders")
+                .addValueEventListener(orderListener);
+        IsFirstTime = false;
+    }
+
+    private void ReloadListener() {
+        orderListener  = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    Order order = snapshot.getValue(Order.class);
+                    if (!(IsOrderWithMe(order))) continue;
+
+                    if (order.status.equals(Order.WaitStatus))
+                    {
+                        if (order.fromUserId.equals(GetMyId()))
+                        {
+                            adapter.SetButtonAction(order.toUserId, "wait", false);
+                        }
+                        else if (order.toUserId.equals(GetMyId()))
+                        {
+                            adapter.SetButtonAction(order.fromUserId, "go", true);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                ShowDataBaseError("error order load");
+            }
+        };
+    }
+
+    private ValueEventListener orderListener;
+
+    private Boolean IsOrderWithMe(Order order)
+    {
+        String myId = GetMyId();
+        return order.toUserId.equals(myId)
+                || order.fromUserId.equals(myId);
     }
 
     public void OnListViewItemButtonClicked(int i, String userId, String status)
@@ -69,17 +120,11 @@ public class UserListActivity extends AppCompatActivity
         {
             case "send":
                 SendOrder(userId);
-                adapter.SetButtonAction(i, "wait", false);
                 break;
             case "go":
                 GoToInterview(userId);
                 break;
         }
-    }
-
-    private void ActivateInterviewButton(String userId)
-    {
-        adapter.SetButtonAction(userId, "go", true);
     }
 
     private void GoToInterview(String userId) {
@@ -141,10 +186,11 @@ public class UserListActivity extends AppCompatActivity
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String myId = GetMyId();
+                        allUsers.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             User user = snapshot.getValue(User.class);
-                            if (user.ID == null) break;
+                            if (user.ID == null) continue;
                             if (Objects.equals(user.ID, myId)) continue;
                             for (Role role : dbRoles)
                             {
@@ -180,6 +226,8 @@ public class UserListActivity extends AppCompatActivity
         }
         adapter = new UserListViewAdapter(this, infos);
         userListView.setAdapter(adapter);
+
+        InitCurrentOrdersUpdate();
     }
 
     private static void ShowDataBaseError(String message)
