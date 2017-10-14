@@ -5,8 +5,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
 //Роль юзера
 @IgnoreExtraProperties
 public class Role {
-    public final String VdudRole = "vDud";
-    public final String GuestRole = "Guest";
+    public static final String RoleIntentKey = "role";
+    public static final String VdudRole = "vDud";
+    public static final String GuestRole = "Guest";
 
     public String ID;
     public String roleType;

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
+import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
 import com.google.firebase.auth.UserInfo;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 public class UserListActivity extends AppCompatActivity
 {
+    private String myRole;
     private ListView userListView;
     UserListViewAdapter adapter;
 
@@ -32,6 +34,8 @@ public class UserListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
+
+        myRole = (String)savedInstanceState.get(Role.RoleIntentKey);
 
         userListView = (ListView) findViewById(R.id.userListView);
 
