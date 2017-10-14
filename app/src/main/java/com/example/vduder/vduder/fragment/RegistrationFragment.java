@@ -108,7 +108,6 @@ public class RegistrationFragment extends Fragment {
                             Log.w("dd", "signInWithEmail:failure", task.getException());
                             Toast.makeText(getActivity(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            fragmentRouting();
                         }
 
                     }
