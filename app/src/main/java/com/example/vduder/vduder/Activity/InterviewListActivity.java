@@ -69,9 +69,10 @@ public class InterviewListActivity extends AppCompatActivity {
         gridLayout.addView(view);
     }
 
-    private void GoToFullInterviewView(Interview interviewId)
+    private void GoToFullInterviewView(Interview interview)
     {
         Intent intent = new Intent(this, FullInterviewActivity.class);
+        intent.putExtra("interviewId", interview.id);
         startActivity(intent);
     }
 }
