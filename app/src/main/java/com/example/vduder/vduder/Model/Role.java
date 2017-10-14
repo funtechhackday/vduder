@@ -2,12 +2,14 @@ package com.example.vduder.vduder.Model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Objects;
+
 //Роль юзера
 @IgnoreExtraProperties
 public class Role {
     public static final String RoleIntentKey = "role";
-    public static final String VdudRole = "vDud";
-    public static final String GuestRole = "Guest";
+    public static final String VdudRole = "dude";
+    public static final String GuestRole = "noDude";
 
     public String ID;
     public String roleType;
@@ -20,4 +22,13 @@ public class Role {
         this.roleType = roleType;
         this.userID = userID;
     }
+
+    public static String GetOpponentRole(String role)
+    {
+        return Objects.equals(role, VdudRole)
+                ? GuestRole
+                : VdudRole;
+
+    }
+
 }

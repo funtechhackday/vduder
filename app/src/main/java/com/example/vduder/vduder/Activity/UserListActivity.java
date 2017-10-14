@@ -56,6 +56,11 @@ public class UserListActivity extends AppCompatActivity
         dataBase = FirebaseDatabase.getInstance().getReference();
 
         InitUserLoading();
+        InitCurrentOrdersUpdate();
+    }
+
+    private void InitCurrentOrdersUpdate() {
+
     }
 
     public void OnListViewItemButtonClicked(int i, String userId, String status)
@@ -105,7 +110,7 @@ public class UserListActivity extends AppCompatActivity
     {
         dataBase
                 .child("role")
-                .child(myRole)
+                .child(Role.GetOpponentRole(myRole))
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
