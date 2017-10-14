@@ -35,7 +35,7 @@ public class UserListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
 
-        myRole = (String)savedInstanceState.get(Role.RoleIntentKey);
+       // myRole = (String)savedInstanceState.get(Role.RoleIntentKey);
 
         userListView = (ListView) findViewById(R.id.userListView);
 
