@@ -62,14 +62,12 @@ public class RegistrationFragment extends Fragment {
         regBtn = (Button) view.findViewById(R.id.btn_reg);
         cancelBtn = (Button) view.findViewById(R.id.btn_cancel);
 
-
         regBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createUser();
             }
         });
-
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
