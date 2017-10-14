@@ -16,9 +16,11 @@ import android.widget.Toast;
 import com.example.vduder.vduder.Core.IdGenerator;
 import com.example.vduder.vduder.Core.UserListInfo;
 import com.example.vduder.vduder.Core.UserListViewAdapter;
+import com.example.vduder.vduder.Model.Order;
 import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserListActivity extends AppCompatActivity
 {
@@ -60,7 +63,7 @@ public class UserListActivity extends AppCompatActivity
         switch (status)
         {
             case "send":
-                SendOrder(userId, status);
+                SendOrder(userId);
                 adapter.SetButtonAction(i, "wait", false);
                 break;
             case "go":
@@ -80,10 +83,23 @@ public class UserListActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void SendOrder(String userId, String status)
+    private void SendOrder(String userId)
 	{
-        Toast.makeText(this, IdGenerator.GenerateId(), Toast.LENGTH_SHORT).show();
+        String id = IdGenerator.GenerateId();
+        Order order = new Order();
+        order.Id = id;
+        order.status = Order.WaitStatus;
+        order.fromUserId = GetMyId();
+        order.toUserId = userId;
+
+        dataBase.child("Orders").child(id).setValue(order);
     }
+
+    private static String GetMyId()
+    {
+        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+    }
+
 
     private void InitUserLoading()
     {
@@ -119,10 +135,12 @@ public class UserListActivity extends AppCompatActivity
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        String myId = GetMyId();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             User user = snapshot.getValue(User.class);
                             if (user.ID == null) break;
+                            if (Objects.equals(user.ID, myId)) continue;
                             for (Role role : dbRoles)
                             {
                                 if (user.ID.equals(role.userID))
@@ -152,7 +170,7 @@ public class UserListActivity extends AppCompatActivity
             User user = allUsers.get(i);
             info.userId = user.ID;
             info.userName = user.username;
-            info.status = "go";
+            info.status = "send";
             infos.add(info);
         }
         adapter = new UserListViewAdapter(this, infos);
