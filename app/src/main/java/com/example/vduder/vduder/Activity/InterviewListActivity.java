@@ -8,6 +8,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.Core.ImageManager;
 import com.example.vduder.vduder.Core.LogHelper;
 import com.example.vduder.vduder.Model.Interview;
 import com.example.vduder.vduder.R;
@@ -56,9 +57,8 @@ public class InterviewListActivity extends AppCompatActivity {
 
     private void AddInterviewToLayout(final Interview interview) {
         ImageButton view = new ImageButton(this);
-        view.setImageResource(R.drawable.test_ava);
+        ImageManager.DownloadInterviewAvatar(interview.id, view, this);
         view.setTag(interview.id);
-        //view.image = interview;
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
