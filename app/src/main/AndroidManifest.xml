@@ -24,7 +24,8 @@
 
         <uses-feature android:name="android.hardware.camera" />
 
-        <activity android:name=".Activity.CameraActivity"></activity>
+        <activity android:name=".Activity.CameraActivity" />
+        <activity android:name=".Activity.SoundActivity"></activity>
     </application>
 
 </manifest>
