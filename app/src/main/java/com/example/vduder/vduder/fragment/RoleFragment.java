@@ -1,7 +1,11 @@
 package com.example.vduder.vduder.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -12,14 +16,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.Activity.MainActivity;
 import com.example.vduder.vduder.Activity.UserListActivity;
+import com.example.vduder.vduder.Core.LogHelper;
 import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by dmitry on 14.10.17.
@@ -102,3 +115,4 @@ public class RoleFragment extends Fragment {
         getActivity().startActivity(myIntent);
     }
 }
+

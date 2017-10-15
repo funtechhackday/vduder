@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.example.vduder.vduder.Core.ImageManager;
 import com.example.vduder.vduder.Core.ImageWizzard;
 import com.example.vduder.vduder.R;
 
@@ -16,12 +17,14 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
-        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
-        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava2);
+//        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
+//        ImageManager.UploadUserAvatar("0", image1);
+//        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava2);
 
-        Bitmap res = ImageWizzard.MakeMagic(image1, image2, "Ivan", "Boris");
+//        Bitmap res = ImageWizzard.MakeMagic(image1, image2, "Ivan", "Boris");
 
         ImageView view = (ImageView) findViewById(R.id.testImageView);
-        view.setImageBitmap(res);
+        ImageManager.DownloadUserAvatar("1", view, this);
+//        view.setImageBitmap(res);
     }
 }
