@@ -143,21 +143,9 @@ public class UserListActivity extends AppCompatActivity
                 SendOrder(userId);
                 break;
             case "go":
-                Intent intent = new Intent(this, SoundActivity.class);
-                intent.putExtra("isAdv", false);
-                intent.putExtra("userId", userId);
-                startActivityForResult(intent, 1234);
-
+                GoToInterview(userId);
                 break;
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-        String userId = data.getStringExtra("userId");
-        GoToInterview(userId);
     }
 
     private void GoToInterview(final String opponentId) {
