@@ -96,11 +96,11 @@ public class UserListActivity extends AppCompatActivity
                     {
                         if (IsIAmAuthor(order)) //я - автор заявки
                         {
-                            adapter.SetButtonAction(order.toUserId, "wait", false);
+                            adapter.SetButtonAction(order.toUserId, "Ожидание", false);
                         }
                         else //я - цель заявки
                         {
-                            adapter.SetButtonAction(order.fromUserId, "go", true);
+                            adapter.SetButtonAction(order.fromUserId, "Интервью!", true);
                         }
                     }
                     else if (order.status.equals(Order.ConfirmedStatus))
@@ -110,7 +110,7 @@ public class UserListActivity extends AppCompatActivity
                             opponentId = order.toUserId;
                         else
                             opponentId = order.fromUserId;
-                        adapter.SetButtonAction(opponentId, "go", true);
+                        adapter.SetButtonAction(opponentId, "Интервью!", true);
                     }
                 }
             }
@@ -139,10 +139,10 @@ public class UserListActivity extends AppCompatActivity
     {
         switch (status)
         {
-            case "send":
+            case "Пригласить":
                 SendOrder(userId);
                 break;
-            case "go":
+            case "Интервью!":
                 GoToInterview(userId);
                 break;
         }
@@ -326,7 +326,7 @@ public class UserListActivity extends AppCompatActivity
             User user = allUsers.get(i);
             info.userId = user.ID;
             info.userName = user.username;
-            info.status = "send";
+            info.status = "Пригласить";
             infos.add(info);
         }
         adapter = new UserListViewAdapter(this, infos);
