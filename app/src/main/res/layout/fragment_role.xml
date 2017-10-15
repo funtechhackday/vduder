@@ -6,47 +6,57 @@
     <RelativeLayout
         android:id="@+id/rootRL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.68"
+        android:layout_height="wrap_content"
         android:background="@drawable/role"
         android:orientation="vertical">
 
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
         <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="101dp"
             android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="184dp"
-            android:id="@+id/linearLayout2">
-            <!--  Email Label -->
-                <Button
-                    android:id="@+id/btn_dude"
-                    android:layout_width="172dp"
-                    android:layout_height="55dp"
-                    android:background="@color/colorAccent"
-                    android:onClick="onClick"
-                    android:text="ДУДЬ"></Button>
-                <Button
-                    android:id="@+id/btn_noDude"
-                    android:layout_width="172dp"
-                    android:layout_height="55dp"
-                    android:background="@color/colorAccent"
-                    android:onClick="onClick"
-                    android:text="НЕ ДУДЬ">
-                </Button>
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+            <Button
+                android:id="@+id/btn_dude"
+                android:layout_width="172dp"
+                android:layout_height="55dp"
+                android:background="@color/colorAccent"
+                android:onClick="onClick"
+                android:text="ДУДЬ"></Button>
+
+            <Button
+                android:id="@+id/btn_noDude"
+                android:layout_marginTop="10dp"
+                android:layout_width="172dp"
+                android:layout_height="55dp"
+                android:background="@color/colorAccent"
+                android:onClick="onClick"
+                android:text="НЕ ДУДЬ"></Button>
+
+            <Button
+                android:id="@+id/btn_logOut"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_alignStart="@+id/linearLayout3"
+                android:layout_marginTop="80dp"
+                android:background="@color/colorAccent"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:padding="20px"
+                android:text="Log Out"></Button>
         </LinearLayout>
-        <Button
-            android:id="@+id/btn_logOut"
-            android:layout_width="172dp"
-            android:layout_height="55dp"
-            android:gravity="center"
-            android:padding="20px"
-            android:onClick="onClick"
-            android:background="@color/colorAccent"
-            android:text="Log Out"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/linearLayout2"
-            android:layout_marginBottom="96dp"></Button>
+
     </RelativeLayout>
+
 </LinearLayout>
