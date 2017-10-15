@@ -234,8 +234,9 @@ public class UserListActivity extends AppCompatActivity
     {
         Intent intent = new Intent(this, InterviewActivity.class);
         intent.putExtra("interviewId", interviewId);
-//        startActivity(intent); //TODO
-        Toast.makeText(this, "Go to interview with id " + interviewId, Toast.LENGTH_SHORT).show();
+        intent.putExtra(Role.RoleIntentKey, myRole);
+        startActivity(intent); //TODO
+//        Toast.makeText(this, "Go to interview with id " + interviewId, Toast.LENGTH_SHORT).show();
     }
 
     private void SendOrder(String userId)

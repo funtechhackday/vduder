@@ -2,18 +2,14 @@ package com.example.vduder.vduder.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vduder.vduder.Core.IdGenerator;
-import com.example.vduder.vduder.Model.Interview;
 import com.example.vduder.vduder.Model.Message;
 import com.example.vduder.vduder.Model.Role;
-import com.example.vduder.vduder.Model.User;
 import com.example.vduder.vduder.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,8 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class InterviewActivity extends AppCompatActivity {
 
@@ -38,9 +32,9 @@ public class InterviewActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String text;
     private String id;
-    private  ArrayList<Message> dbMessageAnswer;
+    private  ArrayList<Message> dbMessageAnswerYourRole;
     private  ArrayList<Message> dbMessageQuestion;
-    private int numberAnswer;
+    private int numberAnswerYourRole;
     private int numberQuestion;
 
     @Override
@@ -53,17 +47,17 @@ public class InterviewActivity extends AppCompatActivity {
         questionText = (TextView) findViewById(R.id.question_text);
         btnSend = (Button) findViewById(R.id.btn_send);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
+        id = getIntent().getStringExtra("interviewId");
         user = FirebaseAuth.getInstance().getCurrentUser();
         dataBase = FirebaseDatabase.getInstance().getReference();
-        id = "1";
         InitUserLoading();
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 text = answerEdit.getText().toString();
-                numberAnswer = numberAnswer + 1;
-                if (numberAnswer < 10) {
-                writeMessage(numberAnswer ,user.getUid(), id, myRole, text);
+                numberAnswerYourRole = numberAnswerYourRole + 1;
+                if (numberAnswerYourRole < 10) {
+                writeMessage(numberAnswerYourRole,user.getUid(), id, myRole, text);
                 answerEdit.setText("");
                 } else {
                     answerEdit.setText("Оказавшись перед путиным, что ты ему скажешь?");
@@ -109,8 +103,8 @@ public class InterviewActivity extends AppCompatActivity {
                             }
                         }
                         if (messagesRole != null) {
-                            numberAnswer = messagesRole.size();
-                            dbMessageAnswer = messagesRole;
+                            numberAnswerYourRole = messagesRole.size();
+                            dbMessageAnswerYourRole = messagesRole;
                         }
                         if (messagesNoRole != null) {
                             numberQuestion = messagesNoRole.size();
@@ -126,21 +120,38 @@ public class InterviewActivity extends AppCompatActivity {
     }
 
     private void roleMessage() {
+        String itemRole;
         String item;
         if (myRole.equals("dude")) {
-            if (dbMessageAnswer != null) {
-                item = dbMessageAnswer.get(dbMessageAnswer.size() - 1).text;
-                questionText.setText(item);
+            if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
+                itemRole = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
+                if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+                    item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                    answerText.setText(item);
+                } else {
+                    answerText.setText("Здесь ответ будет");
+                }
+                questionText.setText(itemRole);
             } else {
                 questionText.setText("Зайдай вопрос наконец!");
+                answerText.setText("Здесь ответ будет");
             }
         } else {
-            if (dbMessageQuestion != null) {
-                item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
-                answerText.setText(item);
+            if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+                itemRole = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+                    item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                    questionText.setText(item);
+                } else {
+                    questionText.setText("Жди вопрос");
+                }
+                answerText.setText(itemRole);
             } else {
+                questionText.setText("Жди вопрос");
                 answerText.setText("Все ждут твой ответ");
+
             }
         }
     }
+
 }
