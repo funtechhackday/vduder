@@ -38,7 +38,6 @@ public class SoundActivity extends AppCompatActivity {
         {
             final MediaPlayer mp = MediaPlayer.create(this, R.raw.budet_dut);
             mp.setLooping(true);
-            mp.set
             mp.start();
             timerTask = new TimerTask() {
                 @Override
