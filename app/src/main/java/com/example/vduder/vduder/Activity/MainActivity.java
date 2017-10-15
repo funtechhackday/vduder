@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
 //        Intent intent = new Intent(this, InterviewActivity.class);
-//        intent.putExtra(Role.RoleIntentKey, "dude");
+//        intent.putExtra(Role.RoleIntentKey, "noDude");
+//        intent.putExtra("interviewId", "1508041620989");
 //        startActivity(intent);
         }
 

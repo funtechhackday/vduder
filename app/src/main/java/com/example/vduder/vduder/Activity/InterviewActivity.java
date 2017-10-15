@@ -56,12 +56,9 @@ public class InterviewActivity extends AppCompatActivity {
             public void onClick(View v) {
                 text = answerEdit.getText().toString();
                 numberAnswerYourRole = numberAnswerYourRole + 1;
-                if (numberAnswerYourRole < 10) {
                 writeMessage(numberAnswerYourRole,user.getUid(), id, myRole, text);
                 answerEdit.setText("");
-                } else {
-                    answerEdit.setText("Оказавшись перед путиным, что ты ему скажешь?");
-                }
+
             }
         });
     }
@@ -71,7 +68,6 @@ public class InterviewActivity extends AppCompatActivity {
         Message mes = new Message(id, number, authorId,  interviewId,  myRole,  text);
        // dataBase.child("interview").child(id).setValue(mes);
         dataBase.child("message").child(id).setValue(mes);
-        textRole(myRole);
     }
 
     private void textRole(String role) {
@@ -124,14 +120,24 @@ public class InterviewActivity extends AppCompatActivity {
         String item;
         if (myRole.equals("dude")) {
             if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
+                if (dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).number + 1 == 4) {
                 itemRole = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
-                if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
-                    item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
-                    answerText.setText(item);
+                    if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+                        item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                        answerText.setText(item);
+                    } else {
+                        answerText.setText("Жди ответ");
+                    }
+                    questionText.setText(itemRole);
+                    if (dbMessageQuestion.size() == dbMessageAnswerYourRole.size()) {
+                        visibleView(View.VISIBLE);
+                    } else {
+                        visibleView(View.INVISIBLE);
+                    }
                 } else {
-                    answerText.setText("Здесь ответ будет");
+                    visibleView(View.VISIBLE);
+                    answerEdit.setText("Оказавшись перед путиным, что ты ему скажешь?");
                 }
-                questionText.setText(itemRole);
             } else {
                 questionText.setText("Зайдай вопрос наконец!");
                 answerText.setText("Здесь ответ будет");
@@ -139,19 +145,25 @@ public class InterviewActivity extends AppCompatActivity {
         } else {
             if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
                 itemRole = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
-                if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
-                    item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
+                    item = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
                     questionText.setText(item);
-                } else {
-                    questionText.setText("Жди вопрос");
                 }
                 answerText.setText(itemRole);
+                if (dbMessageQuestion.size() == dbMessageAnswerYourRole.size()) {
+                    visibleView(View.INVISIBLE);
+                } else {
+                    visibleView(View.VISIBLE);
+                }
             } else {
                 questionText.setText("Жди вопрос");
                 answerText.setText("Все ждут твой ответ");
-
+                visibleView(View.INVISIBLE);
             }
         }
     }
-
+     private void visibleView(int visible) {
+         answerEdit.setVisibility(visible);
+         btnSend.setVisibility(visible);
+     }
 }
