@@ -5,7 +5,9 @@ import android.media.MediaPlayer;
 import android.media.TimedText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.vduder.vduder.R;
 
@@ -36,6 +38,8 @@ public class SoundActivity extends AppCompatActivity {
 
         if (!isAdvertisment)
         {
+            imageView.setImageResource(R.drawable.spalsh);
+
             final MediaPlayer mp = MediaPlayer.create(this, R.raw.budet_dut);
             mp.setLooping(true);
             mp.start();
