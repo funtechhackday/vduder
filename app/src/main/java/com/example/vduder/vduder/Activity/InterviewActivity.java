@@ -30,7 +30,6 @@ public class InterviewActivity extends AppCompatActivity {
     private EditText answerEdit;
     private TextView answerText;
     private TextView questionText;
-    private TextView finalText;
     private Button btnSend;
     private String myRole;
     private FirebaseUser user;
