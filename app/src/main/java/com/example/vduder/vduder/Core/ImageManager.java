@@ -19,14 +19,23 @@ import java.io.ByteArrayOutputStream;
 
 public class ImageManager
 {
+    private static final String userDir = "users";
+    private static final String interviewDir = "interviews";
+
+    private static StorageReference storage = FirebaseStorage.getInstance().getReference();
+
     public static void UploadUserAvatar(String userId, Bitmap bitmap)
+    {
+        UploadImage(userDir, userId, bitmap);
+    }
+
+    private static void UploadImage(String dir, String fileName, Bitmap bitmap)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        StorageReference ref = FirebaseStorage.getInstance().getReference();
-        UploadTask uploadTask = ref.child("users").child(userId).putBytes(data);
+        UploadTask uploadTask = storage.child(dir).child(fileName).putBytes(data);
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
@@ -41,8 +50,22 @@ public class ImageManager
                 });
     }
 
+    public static void UploadInterviewAvatar(String interviewId, Bitmap bitmap)
+    {
+        UploadImage(interviewDir, interviewId, bitmap);
+    }
+
     public static void DownloadUserAvatar(String userId, ImageView view, Context context) {
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child("users").child(userId);
+        DownloadImage(userDir, userId, view, context);
+    }
+
+    public static void DownloadInterviewAvatar(String interviewId, ImageView view, Context context) {
+        DownloadImage(interviewDir, interviewId, view, context);
+    }
+
+    private static void DownloadImage(String dir, String fileName, ImageView view, Context context)
+    {
+        StorageReference ref = storage.child(dir).child(fileName);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(ref)

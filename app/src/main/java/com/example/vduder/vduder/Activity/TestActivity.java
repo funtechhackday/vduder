@@ -18,13 +18,15 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
 //        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava);
-//        ImageManager.UploadUserAvatar("0", image1);
+////        ImageManager.UploadUserAvatar("0", image1);
 //        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.test_ava2);
-
+//
 //        Bitmap res = ImageWizzard.MakeMagic(image1, image2, "Ivan", "Boris");
-
+//
         ImageView view = (ImageView) findViewById(R.id.testImageView);
-        ImageManager.DownloadUserAvatar("1", view, this);
+        ImageManager.DownloadInterviewAvatar("0", view, this);
+//        ImageManager.UploadInterviewAvatar("0", res);
+//        ImageManager.DownloadUserAvatar("1", view, this);
 //        view.setImageBitmap(res);
     }
 }
