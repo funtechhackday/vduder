@@ -160,7 +160,8 @@ public class UserListActivity extends AppCompatActivity
                         for(DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             Interview interview = snapshot.getValue(Interview.class);
-                            if (!(interview.guestUserId.equals(myId))) continue;
+
+                            if (!interview.guestUserId.equals(myId) && !interview.vdudUserId.equals(myId)) continue;
                             GoToInterviewActivity(interview.id);
                             return;
                         }
