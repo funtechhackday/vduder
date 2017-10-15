@@ -21,6 +21,8 @@
         <activity android:name=".Activity.InterviewListActivity" />
         <activity android:name=".Activity.FullInterviewActivity" />
         <activity android:name=".Activity.TestActivity"></activity>
+
+        <uses-feature android:name="android.hardware.camera"></uses-feature>
     </application>
 
 </manifest>
