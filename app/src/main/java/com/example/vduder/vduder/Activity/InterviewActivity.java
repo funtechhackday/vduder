@@ -1,5 +1,6 @@
 package com.example.vduder.vduder.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.vduder.vduder.Core.IdGenerator;
+import com.example.vduder.vduder.Model.Interview;
 import com.example.vduder.vduder.Model.Message;
+import com.example.vduder.vduder.Model.Order;
 import com.example.vduder.vduder.Model.Role;
 import com.example.vduder.vduder.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +40,8 @@ public class InterviewActivity extends AppCompatActivity {
     private  ArrayList<Message> dbMessageQuestion;
     private int numberAnswerYourRole;
     private int numberQuestion;
-
+    private String userId;
+    private String noDudeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class InterviewActivity extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         dataBase = FirebaseDatabase.getInstance().getReference();
         InitUserLoading();
+        getUsersId();
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,9 +67,14 @@ public class InterviewActivity extends AppCompatActivity {
                 numberAnswerYourRole = numberAnswerYourRole + 1;
                 writeMessage(numberAnswerYourRole,user.getUid(), id, myRole, text);
                 answerEdit.setText("");
-                if (numberAnswerYourRole == 2){
-
-                    visibleView(View.INVISIBLE);
+                if (numberAnswerYourRole == 3) {
+                    //TODO: SOUNNNNNNNNNNNNNNNNNNNNNNNNNNDDDDDDDDDDDDDDDDDDDDDDD ЮРААААААААААА ДУУУУУУУУУУДЬ
+                }
+                if (numberAnswerYourRole ==2 && myRole.equals("dude")){
+                    goToTheInterview();
+                }
+                if (numberAnswerYourRole == 5 && myRole.equals("noDude")){
+                    goToTheInterviewWithDelete();
                 }
             }
         });
@@ -139,9 +149,6 @@ public class InterviewActivity extends AppCompatActivity {
                     answerText.setText("Жди ответ");
                 }
                 questionText.setText(itemRole);
-                if(putin()) {
-                    answerEdit.setText("Что ты скажешь Путину?");
-                }
                 if (size()) {
                     visibleView(View.VISIBLE);
                 } else {
@@ -184,4 +191,41 @@ public class InterviewActivity extends AppCompatActivity {
     private boolean size() {
         return dbMessageQuestion.size() == dbMessageAnswerYourRole.size();
     }
+
+    private void getUsersId()
+    {
+        dataBase
+                .child("interview")
+                .orderByChild("id")
+                .equalTo(id)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<Interview> interviews = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            Interview interview = snapshot.getValue(Interview.class);
+                            interviews.add(interview);
+                        }
+                        userId = interviews.get(0).vdudUserId;
+                        noDudeId = interviews.get(0).guestUserId;
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        System.out.println("error role load");
+                    }
+                });
+    }
+    private void  goToTheInterview() {
+        Intent intent = new Intent(this, FullInterviewActivity.class);
+        intent.putExtra("interviewId", id);
+        startActivity(intent);
+    }
+    private void  goToTheInterviewWithDelete() {
+        Intent intent = new Intent(this, FullInterviewActivity.class);
+        intent.putExtra("interviewId", id);
+        Order.RemoveFromDataBase(userId, noDudeId);
+        startActivity(intent);
+    }
+
 }
