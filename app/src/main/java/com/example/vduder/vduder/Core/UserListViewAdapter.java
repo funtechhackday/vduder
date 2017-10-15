@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vduder.vduder.Activity.UserListActivity;
@@ -81,6 +82,9 @@ public class UserListViewAdapter extends BaseAdapter
         userButton.setText(info.status);
         userButton.setId(i);
         userButton.setOnClickListener(userButtonClickListener);
+
+        ImageView imageView = (ImageView)resView.findViewById(R.id.userAvatarImageView);
+        ImageManager.DownloadUserAvatar(info.userId, imageView, context);
 
         views.add(i, resView);
         return resView;

@@ -55,11 +55,13 @@ public class ImageManager
         UploadImage(interviewDir, interviewId, bitmap);
     }
 
-    public static void DownloadUserAvatar(String userId, ImageView view, Context context) {
+    public static void DownloadUserAvatar(String userId, ImageView view, Context context)
+    {
         DownloadImage(userDir, userId, view, context);
     }
 
-    public static void DownloadInterviewAvatar(String interviewId, ImageView view, Context context) {
+    public static void DownloadInterviewAvatar(String interviewId, ImageView view, Context context)
+    {
         DownloadImage(interviewDir, interviewId, view, context);
     }
 
