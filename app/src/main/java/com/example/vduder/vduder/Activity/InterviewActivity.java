@@ -27,6 +27,7 @@ public class InterviewActivity extends AppCompatActivity {
     private EditText answerEdit;
     private TextView answerText;
     private TextView questionText;
+    private TextView finalText;
     private Button btnSend;
     private String myRole;
     private FirebaseUser user;
@@ -37,6 +38,7 @@ public class InterviewActivity extends AppCompatActivity {
     private int numberAnswerYourRole;
     private int numberQuestion;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +47,11 @@ public class InterviewActivity extends AppCompatActivity {
         answerEdit = (EditText) findViewById(R.id.answer_edit);
         answerText = (TextView) findViewById(R.id.answer_text);
         questionText = (TextView) findViewById(R.id.question_text);
+        finalText = (TextView) findViewById(R.id.final_text);
         btnSend = (Button) findViewById(R.id.btn_send);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
         id = getIntent().getStringExtra("interviewId");
+       // id = "1508046731037";
         user = FirebaseAuth.getInstance().getCurrentUser();
         dataBase = FirebaseDatabase.getInstance().getReference();
         InitUserLoading();
@@ -58,7 +62,10 @@ public class InterviewActivity extends AppCompatActivity {
                 numberAnswerYourRole = numberAnswerYourRole + 1;
                 writeMessage(numberAnswerYourRole,user.getUid(), id, myRole, text);
                 answerEdit.setText("");
+                if (numberAnswerYourRole == 2){
 
+                    visibleView(View.INVISIBLE);
+                }
             }
         });
     }
@@ -106,7 +113,11 @@ public class InterviewActivity extends AppCompatActivity {
                             numberQuestion = messagesNoRole.size();
                             dbMessageQuestion = messagesNoRole;
                         }
-                        roleMessage();
+                        if (myRole.equals("dude")) {
+                            dudeRole();
+                        } else {
+                            noDudeRole();
+                        }
                     }
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -115,55 +126,62 @@ public class InterviewActivity extends AppCompatActivity {
                 });
     }
 
-    private void roleMessage() {
+
+    private void dudeRole() {
         String itemRole;
         String item;
-        if (myRole.equals("dude")) {
             if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
-                if (dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).number + 1 == 4) {
                 itemRole = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
-                    if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
-                        item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
-                        answerText.setText(item);
-                    } else {
-                        answerText.setText("Жди ответ");
-                    }
-                    questionText.setText(itemRole);
-                    if (dbMessageQuestion.size() == dbMessageAnswerYourRole.size()) {
-                        visibleView(View.VISIBLE);
-                    } else {
-                        visibleView(View.INVISIBLE);
-                    }
+                if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+                    item = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+                    answerText.setText(item);
                 } else {
+                    answerText.setText("Жди ответ");
+                }
+                questionText.setText(itemRole);
+                if(putin()) {
+                    answerEdit.setText("Что ты скажешь Путину?");
+                }
+                if (size()) {
                     visibleView(View.VISIBLE);
-                    answerEdit.setText("Оказавшись перед путиным, что ты ему скажешь?");
+                } else {
+                    visibleView(View.INVISIBLE);
                 }
             } else {
                 questionText.setText("Зайдай вопрос наконец!");
                 answerText.setText("Здесь ответ будет");
             }
-        } else {
-            if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
-                itemRole = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
-                if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
-                    item = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
-                    questionText.setText(item);
-                }
-                answerText.setText(itemRole);
-                if (dbMessageQuestion.size() == dbMessageAnswerYourRole.size()) {
-                    visibleView(View.INVISIBLE);
-                } else {
-                    visibleView(View.VISIBLE);
-                }
-            } else {
-                questionText.setText("Жди вопрос");
-                answerText.setText("Все ждут твой ответ");
-                visibleView(View.INVISIBLE);
+    }
+    private void noDudeRole() {
+        String itemRole;
+        String item;
+        if (dbMessageQuestion != null && dbMessageQuestion.size() != 0) {
+            itemRole = dbMessageQuestion.get(dbMessageQuestion.size() - 1).text;
+            if (dbMessageAnswerYourRole != null && dbMessageAnswerYourRole.size() != 0) {
+                item = dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).text;
+                questionText.setText(item);
             }
+            answerText.setText(itemRole);
+            if (size()) {
+                visibleView(View.INVISIBLE);
+            } else {
+                visibleView(View.VISIBLE);
+            }
+        } else {
+            questionText.setText("Жди вопрос");
+            answerText.setText("Все ждут твой ответ");
+            visibleView(View.INVISIBLE);
         }
     }
      private void visibleView(int visible) {
          answerEdit.setVisibility(visible);
          btnSend.setVisibility(visible);
      }
+    private boolean putin() {
+        return dbMessageAnswerYourRole != null
+                && dbMessageAnswerYourRole.get(dbMessageAnswerYourRole.size() - 1).number+1 == 2;
+    }
+    private boolean size() {
+        return dbMessageQuestion.size() == dbMessageAnswerYourRole.size();
+    }
 }
