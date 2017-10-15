@@ -15,7 +15,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="600px"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
@@ -61,13 +61,12 @@
             android:id="@+id/link_signup"
             android:layout_width="279dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="52dp"
-            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="63dp"
             android:layout_weight="0.11"
             android:gravity="center"
             android:text="Нет аккаунта? Нажми на эту надпись"
-            android:textSize="16dip" />
+            android:textSize="16dip"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </LinearLayout>
