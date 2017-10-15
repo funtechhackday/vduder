@@ -1,6 +1,7 @@
 package com.example.vduder.vduder.Core;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,7 @@ public class UserListViewAdapter extends BaseAdapter
 
         ImageView imageView = (ImageView)resView.findViewById(R.id.userAvatarImageView);
         ImageManager.DownloadUserAvatar(info.userId, imageView, context);
-
+        
         views.add(i, resView);
         return resView;
     }
