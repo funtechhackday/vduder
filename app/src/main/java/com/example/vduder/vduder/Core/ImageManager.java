@@ -62,7 +62,7 @@ public class ImageManager
 
     public static void DownloadInterviewAvatar(String interviewId, ImageView view, Context context)
     {
-        DownloadImage(interviewDir, interviewId, view, context);
+        DownloadImage(interviewDir, interviewId + ".png", view, context);
     }
 
     private static void DownloadImage(String dir, String fileName, ImageView view, Context context)
