@@ -86,6 +86,7 @@ public class FullInterviewActivity extends AppCompatActivity {
 
     private void ShowMessages(ArrayList<Message> messages)
     {
+
         for (Message message : messages)
         {
             TextView view = new TextView(this);
