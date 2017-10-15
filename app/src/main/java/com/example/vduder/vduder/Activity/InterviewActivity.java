@@ -72,12 +72,7 @@ public class InterviewActivity extends AppCompatActivity {
                     intent.putExtra("isAdv", true);
                     startActivityForResult(intent, 1234);
                 }
-                if (numberAnswerYourRole ==2 && myRole.equals("dude")){
-                    goToTheInterview();
-                }
-                if (numberAnswerYourRole == 5 && myRole.equals("noDude")){
-                    goToTheInterviewWithDelete();
-                }
+
             }
         });
     }
@@ -87,6 +82,12 @@ public class InterviewActivity extends AppCompatActivity {
         Message mes = new Message(id, number, authorId,  interviewId,  myRole,  text);
        // dataBase.child("interview").child(id).setValue(mes);
         dataBase.child("message").child(id).setValue(mes);
+        if (numberAnswerYourRole == 5 && myRole.equals("dude")){
+            goToTheInterview();
+        }
+        if (numberAnswerYourRole == 5 && myRole.equals("noDude")){
+            goToTheInterviewWithDelete();
+        }
     }
 
     private void textRole(String role) {
