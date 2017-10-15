@@ -30,7 +30,6 @@ public class InterviewActivity extends AppCompatActivity {
     private EditText answerEdit;
     private TextView answerText;
     private TextView questionText;
-    private TextView finalText;
     private Button btnSend;
     private String myRole;
     private FirebaseUser user;
@@ -51,7 +50,6 @@ public class InterviewActivity extends AppCompatActivity {
         answerEdit = (EditText) findViewById(R.id.answer_edit);
         answerText = (TextView) findViewById(R.id.answer_text);
         questionText = (TextView) findViewById(R.id.question_text);
-        finalText = (TextView) findViewById(R.id.final_text);
         btnSend = (Button) findViewById(R.id.btn_send);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
         id = getIntent().getStringExtra("interviewId");
