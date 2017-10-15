@@ -3,19 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/user_list">
 
-    <ListView
-        android:id="@+id/userListView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2">
-    </ListView>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/showInterviewListButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="Show all interviews" />
+        <ListView
+            android:id="@+id/userListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal">
+        </ListView>
+
+        <Button
+            android:id="@+id/showInterviewListButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="Show all interviews"
+            android:background="@color/colorAccent"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
 </LinearLayout>
