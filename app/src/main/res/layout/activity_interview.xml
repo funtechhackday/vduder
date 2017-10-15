@@ -1,49 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:weightSum="1">
-
-    <TextView
-        android:id="@+id/question_text"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rootRL"
         android:layout_width="match_parent"
-        android:layout_height="291dp"
-        android:gravity="center"
-        android:text=""
-        android:textSize="28sp"
-        android:layout_weight="0.73" />
-
-    <TextView
-        android:id="@+id/answer_text"
-        android:layout_width="match_parent"
-        android:layout_height="101dp"
-        android:gravity="center"
-        android:text=""
-        android:textSize="28sp" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <EditText android:id="@+id/answer_edit"
-            android:layout_width="274dp"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:id="@+id/btn_send"
+        android:background="@drawable/interviewHead"
+        android:orientation="vertical">
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="Send">
-        </Button>
-        <TextView
-            android:id="@+id/final_text"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="101dp"
-            android:gravity="center"
-            android:text="Вы закончили интервью"
-            android:textSize="28sp" />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/question_text"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:gravity="center"
+                android:background="@color/colorDude"
+                android:text=""
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/answer_text"
+                android:layout_width="match_parent"
+                android:layout_height="101dp"
+                android:layout_weight="0.83"
+                android:background="@drawable/interview"
+                android:gravity="center"
+                android:text=""
+                android:textSize="28sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/answer_edit"
+                    android:layout_width="274dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/btn_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick"
+                    android:text="Send"></Button>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

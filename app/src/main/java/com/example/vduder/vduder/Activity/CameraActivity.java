@@ -27,7 +27,6 @@ public class CameraActivity extends AppCompatActivity
         role = intent.getStringExtra("role");
         userId = intent.getStringExtra("userId");
 
-        TextView textView = (TextView)findViewById(R.id.cameraLabelTextView);
         Button button = (Button)findViewById(R.id.cameraStartButton);
 
         String label;
@@ -39,7 +38,6 @@ public class CameraActivity extends AppCompatActivity
         {
             label = "Right";
         }
-        textView.setText(label);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
