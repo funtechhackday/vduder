@@ -62,8 +62,6 @@ public class UserListActivity extends AppCompatActivity
 
         InitUserLoading();
         InitCurrentOrdersUpdate();
-
-        Order.RemoveFromDataBase("1", "2");
     }
 
     private void GoToAllIterviewsActivity() {
@@ -162,6 +160,7 @@ public class UserListActivity extends AppCompatActivity
                         for(DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
                             Interview interview = snapshot.getValue(Interview.class);
+                            if (!(interview.guestUserId.equals(myId))) continue;
                             GoToInterviewActivity(interview.id);
                             return;
                         }
