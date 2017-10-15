@@ -46,7 +46,7 @@ public class UserListActivity extends AppCompatActivity
         setContentView(R.layout.activity_user_list);
         myRole = getIntent().getStringExtra(Role.RoleIntentKey);
         myId = GetMyId();
-
+        
         userListView = (ListView) findViewById(R.id.userListView);
         showAllInterviewsButton = (Button) findViewById(R.id.showInterviewListButton);
         showAllInterviewsButton.setOnClickListener(new View.OnClickListener() {

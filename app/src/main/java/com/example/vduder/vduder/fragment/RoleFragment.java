@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.vduder.vduder.Activity.CameraActivity;
 import com.example.vduder.vduder.Activity.MainActivity;
 import com.example.vduder.vduder.Activity.UserListActivity;
 import com.example.vduder.vduder.Core.LogHelper;
@@ -110,8 +111,9 @@ public class RoleFragment extends Fragment {
         routingActivity(Role.GuestRole);
     }
     private void routingActivity(String role) {
-        Intent myIntent = new Intent(getActivity(), UserListActivity.class);
-        myIntent.putExtra(Role.RoleIntentKey, role);
+        Intent myIntent = new Intent(getActivity(), CameraActivity.class);
+        myIntent.putExtra("role", role);
+        myIntent.putExtra("userId", user.getUid());
         getActivity().startActivity(myIntent);
     }
 }
