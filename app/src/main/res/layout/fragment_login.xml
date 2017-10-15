@@ -6,36 +6,64 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
-    <LinearLayout
-        android:layout_width="235dp"
+    <RelativeLayout
+        android:id="@+id/rootRL"
+        android:layout_width="match_parent"
+        android:layout_height="1000px"
+        android:layout_weight="0.68"
+        android:background="@drawable/login"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="600px"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="115dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true">
+            <!--  Email Label -->
+            <EditText
+                android:id="@+id/input_email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toEndOf="@+id/btn_logIn"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_above="@+id/btn_logIn"
+                android:layout_weight="0.02"
+                android:hint="Password"
+                android:inputType="textPassword" />
+            <RelativeLayout android:id="@+id/RelativeLayout01"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <Button
+                    android:id="@+id/btn_logIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginEnd="48dp"
+                    android:onClick="onClick"
+                    android:text="@string/log_up"></Button>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/link_signup"
+        android:layout_width="279dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="0.29">
-        <EditText android:id="@+id/input_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
-
-        <EditText android:id="@+id/input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="Password"/>
-        <Button
-            android:id="@+id/btn_logIn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onClick"
-            android:text="@string/log_up">
-        </Button>
-        <TextView android:id="@+id/link_signup"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="No account yet? Create one"
-            android:gravity="center"
-            android:textSize="16dip"/>
-
-    </LinearLayout>
+        android:layout_above="@+id/btn_logIn"
+        android:layout_alignParentStart="true"
+        android:layout_weight="0.11"
+        android:gravity="center"
+        android:text="No account yet? Create one"
+        android:textSize="16dip" />
 </LinearLayout>
