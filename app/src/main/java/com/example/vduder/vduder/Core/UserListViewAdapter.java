@@ -2,6 +2,7 @@ package com.example.vduder.vduder.Core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class UserListViewAdapter extends BaseAdapter
         @Override
         public void onClick(View view) {
             Button button = (Button) view;
+            button.setBackgroundColor(Color.LTGRAY);
             UserListInfo info = (UserListInfo) getItem(button.getId());
 
             int buttonId = button.getId();
@@ -102,6 +104,9 @@ public class UserListViewAdapter extends BaseAdapter
         Button button = view.findViewById(i);
         button.setText(newStatus);
         button.setEnabled(enable);
+
+        if (newStatus.equals("Интервью!"))
+            button.setBackgroundColor(Color.rgb(208, 51, 72));
     }
 
     public void SetButtonAction(String userId, String newStatus, Boolean enable)
