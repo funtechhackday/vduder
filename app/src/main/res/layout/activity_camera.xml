@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/cameraLabelTextView"
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rootRL"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Some body be alone"
-        android:textSize="30dp"/>
+        android:background="@drawable/photo"
+        android:orientation="vertical">
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/cameraStartButton"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:text="Photo!"/>
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="101dp"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true">
+            <TextView
+                android:id="@+id/cameraLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Some body be alone"
+                android:textSize="30dp"/>
+            <Button
+                android:id="@+id/cameraStartButton"
+                android:layout_marginTop="10dp"
+                android:layout_width="172dp"
+                android:layout_height="55dp"
+                android:background="@color/colorAccent"
+                android:layout_gravity="center|bottom"
+                android:text="Сделай Фоточку"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
+
