@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:onClick="onClick"
                 android:padding="20px"
-                android:text="Log Out"></Button>
+                android:text="Разлогиниться"></Button>
         </LinearLayout>
 
     </RelativeLayout>

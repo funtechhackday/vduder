@@ -36,7 +36,7 @@
                 android:layout_height="50dp"
                 android:layout_above="@+id/btn_logIn"
                 android:layout_weight="0.02"
-                android:hint="Password"
+                android:hint="Пароль"
                 android:inputType="textPassword" />
 
             <RelativeLayout
@@ -53,7 +53,7 @@
                     android:layout_marginEnd="48dp"
                     android:background="@color/colorAccent"
                     android:onClick="onClick"
-                    android:text="@string/log_up"></Button>
+                    android:text="Войти"></Button>
             </RelativeLayout>
         </LinearLayout>
 
@@ -67,7 +67,7 @@
             android:layout_marginEnd="28dp"
             android:layout_weight="0.11"
             android:gravity="center"
-            android:text="No account yet? Create one"
+            android:text="Нет аккаунта? Нажми на эту надпись"
             android:textSize="16dip" />
     </RelativeLayout>
 </LinearLayout>

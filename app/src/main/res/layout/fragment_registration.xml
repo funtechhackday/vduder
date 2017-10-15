@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="Cancel"
+                android:text="Отмена"
                 android:background="@color/colorAccent"
                 android:layout_marginRight="20dp">
             </Button>
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="@string/log_up"
+                android:text="Готово"
                 android:background="@color/colorAccent"
                 android:layout_marginLeft="20dp">
             </Button>
