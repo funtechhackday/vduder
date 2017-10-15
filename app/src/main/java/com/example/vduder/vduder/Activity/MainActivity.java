@@ -35,6 +35,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, SoundActivity.class);
+        intent.putExtra("isAdv", false);
+        startActivityForResult(intent, 1234);
+
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user == null) {
+//            loginFrag = new LoginFragment();
+//            fTrans = getSupportFragmentManager().beginTransaction();
+//            fTrans.add(R.id.frgmCont, loginFrag);
+//            fTrans.commit();
+//        } else {
+//            roleFrag = new RoleFragment();
+//            fTrans = getSupportFragmentManager().beginTransaction();
+//            fTrans.add(R.id.frgmCont, roleFrag);
+//            fTrans.commit();
+//        }
+
+//        Intent intent = new Intent(this, UserListActivity.class);
+//        intent.putExtra(Role.RoleIntentKey, Role.GuestRole);
+//        startActivity(intent);
+        }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             loginFrag = new LoginFragment();
@@ -47,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
             fTrans.add(R.id.frgmCont, roleFrag);
             fTrans.commit();
         }
-
-//        Intent intent = new Intent(this, InterviewActivity.class);
-//        intent.putExtra(Role.RoleIntentKey, "noDude");
-//        intent.putExtra("interviewId", "1508041620989");
-//        startActivity(intent);
-        }
+    }
 
 }

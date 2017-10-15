@@ -21,6 +21,7 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(TestActivity.this, SoundActivity.class);
+                intent.putExtra("isAdv", false);
                 startActivityForResult(intent, 1234);
             }
         });

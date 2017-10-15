@@ -68,7 +68,9 @@ public class InterviewActivity extends AppCompatActivity {
                 writeMessage(numberAnswerYourRole,user.getUid(), id, myRole, text);
                 answerEdit.setText("");
                 if (numberAnswerYourRole == 3) {
-                    //TODO: SOUNNNNNNNNNNNNNNNNNNNNNNNNNNDDDDDDDDDDDDDDDDDDDDDDD ЮРААААААААААА ДУУУУУУУУУУДЬ
+                    Intent intent = new Intent(InterviewActivity.this, SoundActivity.class);
+                    intent.putExtra("isAdv", true);
+                    startActivityForResult(intent, 1234);
                 }
                 if (numberAnswerYourRole ==2 && myRole.equals("dude")){
                     goToTheInterview();

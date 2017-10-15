@@ -28,7 +28,7 @@ public class SoundActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Boolean isAdvertisment = intent.getBooleanExtra("isAdv", false);
-        setResult(RESULT_OK, intent);
+//        setResult(RESULT_OK, intent);
 
 
         imageView = (ImageView)findViewById(R.id.soundImage);
@@ -38,7 +38,6 @@ public class SoundActivity extends AppCompatActivity {
         {
             final MediaPlayer mp = MediaPlayer.create(this, R.raw.budet_dut);
             mp.setLooping(true);
-            mp.set
             mp.start();
             timerTask = new TimerTask() {
                 @Override
@@ -47,7 +46,7 @@ public class SoundActivity extends AppCompatActivity {
                     SoundActivity.this.finish();
                 }
             };
-            timer.schedule(timerTask, delay * 2, delay);
+            timer.schedule(timerTask, delay, delay);
         }
         else
         {
